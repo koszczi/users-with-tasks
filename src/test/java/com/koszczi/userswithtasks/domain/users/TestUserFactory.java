@@ -30,6 +30,6 @@ public class TestUserFactory {
         .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
         .toString();
 
-    return generatedString;
+    return "A".concat(generatedString);
   }
 }

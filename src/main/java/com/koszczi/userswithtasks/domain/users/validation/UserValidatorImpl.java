@@ -48,4 +48,33 @@ public class UserValidatorImpl implements UserValidator {
     if (nullability != true) return field != null;
     return true;
   }
+
+  public String help() {
+    return new StringBuffer()
+        .append("userName: ")
+        .append("\n")
+        .append("nullable: ").append(validationConfig.isUserNameNullable())
+        .append("\n")
+        .append("max length: ").append(validationConfig.getUserNameMaxLength())
+        .append("\n")
+        .append("validation regex: ").append(validationConfig.getUserNameRegex())
+        .append("\n\n")
+        .append("firstName: ")
+        .append("\n")
+        .append("nullable: ").append(validationConfig.isFirstNameNullable())
+        .append("\n")
+        .append("max length: ").append(validationConfig.getFirstNameMaxLength())
+        .append("\n")
+        .append("validation regex: ").append(validationConfig.getFirstNameRegex())
+        .append("\n\n")
+        .append("lastName: ")
+        .append("\n")
+        .append("nullable: ").append(validationConfig.isLastNameNullable())
+        .append("\n")
+        .append("max length: ").append(validationConfig.getLastNameMaxLength())
+        .append("\n")
+        .append("validation regex: ").append(validationConfig.getLastNameRegex())
+        .toString();
+
+  }
 }

@@ -14,4 +14,10 @@ public interface UserValidator {
    */
   boolean isValid(User user);
 
+  /**
+   * Provides validation details to help building valid {@link User} entities
+   * @return help text
+   */
+  String help();
+
 }

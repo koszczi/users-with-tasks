@@ -1,5 +1,6 @@
 package com.koszczi.userswithtasks.domain.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,12 +25,15 @@ public class User {
   private Long id;
 
   @Column(name = "USER_NAME")
+  @JsonProperty("username")
   private String userName;
 
   @Column(name = "LAST_NAME")
+  @JsonProperty("last_name")
   private String lastName;
 
   @Column(name = "FIRST_NAME")
+  @JsonProperty("first_name")
   private String firstName;
 
   public static UserBuilder builder() {
@@ -69,5 +73,12 @@ public class User {
     this.userName = builder.userName;
     this.firstName = builder.firstName;
     this.lastName = builder.lastName;
+  }
+
+  public User merge(User other) {
+    this.userName = other.userName;
+    this.firstName = other.firstName;
+    this.lastName = other.lastName;
+    return this;
   }
 }

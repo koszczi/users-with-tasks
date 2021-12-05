@@ -21,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 public class UserController {
 
-  private static final String GENERIC_ERR_MSG = "operation failed due to some internal error";
+  public static final String GENERIC_ERR_MSG = "operation failed due to some internal error";
   private final UserPersistenceService userPersistenceService;
   private final UserValidator userValidator;
 

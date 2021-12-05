@@ -22,7 +22,7 @@ public class TestUserFactory {
   private static String generateString() {
     int leftLimit = 97;
     int rightLimit = 122;
-    int targetStringLength = 10;
+    int targetStringLength = 9;
     Random random = new Random();
 
     String generatedString = random.ints(leftLimit, rightLimit + 1)

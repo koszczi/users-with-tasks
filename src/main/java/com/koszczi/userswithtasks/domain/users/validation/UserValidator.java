@@ -1,4 +1,6 @@
-package com.koszczi.userswithtasks.domain.users;
+package com.koszczi.userswithtasks.domain.users.validation;
+
+import com.koszczi.userswithtasks.domain.users.User;
 
 /**
  * Constains methods for determining the validity of {@link User} instances from various point of view

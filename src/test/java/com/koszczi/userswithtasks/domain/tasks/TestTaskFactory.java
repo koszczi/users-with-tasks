@@ -1,6 +1,7 @@
 package com.koszczi.userswithtasks.domain.tasks;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -11,7 +12,7 @@ public class TestTaskFactory {
         .name(generateString(5))
         .description(generateString(10))
         .userId(userId)
-        .dateTime(LocalDate.of(2020, 11, 11))
+        .dateTime(LocalDateTime.of(2020, 12, 31, 13, 45))
         .build();
 
     if (id != null) {

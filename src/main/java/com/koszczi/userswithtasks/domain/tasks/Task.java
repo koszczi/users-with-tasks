@@ -1,16 +1,24 @@
 package com.koszczi.userswithtasks.domain.tasks;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "USER")
@@ -34,10 +42,14 @@ public class Task {
   private String description;
 
   @Column(name = "DATE_TIME")
-  @JsonProperty("dateTime")
-  private LocalDate dateTime;
+  @JsonProperty("date_time")
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private LocalDateTime dateTime;
 
   @Column(name = "USER_ID")
+  @Setter(AccessLevel.PACKAGE)
   private long userId;
 
   public static TaskBuilder builder() {
@@ -54,7 +66,7 @@ public class Task {
 
     private String name;
     private String description;
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
     private long userId;
 
     TaskBuilder() {
@@ -70,7 +82,7 @@ public class Task {
       return this;
     }
 
-    public TaskBuilder dateTime(LocalDate dateTime) {
+    public TaskBuilder dateTime(LocalDateTime dateTime) {
       this.dateTime = dateTime;
       return this;
     }

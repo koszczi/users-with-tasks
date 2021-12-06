@@ -44,7 +44,8 @@ public class UserController {
     if (invalid(user)) return unProcessableEntityResponse();
 
     return userPersistenceService.findUserById(id)
-        .map(u -> ResponseEntity.ok(u.merge(user)))
+        .flatMap(u -> userPersistenceService.persistUser(u.merge(user)))
+        .map(u -> ResponseEntity.ok(u))
         .orElse(ResponseEntity.notFound().build());
   }
 

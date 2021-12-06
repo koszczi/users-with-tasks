@@ -138,6 +138,7 @@ public class UserControllerTests {
 
     when(userValidator.isValid(user)).thenReturn(true);
     when(persistenceService.findUserById(id)).thenReturn(Optional.of(user));
+    when(persistenceService.persistUser(user)).thenReturn(Optional.of(user));
     MockHttpServletResponse response = mvc
         .perform(MockMvcRequestBuilders
             .put("/user/" + id)

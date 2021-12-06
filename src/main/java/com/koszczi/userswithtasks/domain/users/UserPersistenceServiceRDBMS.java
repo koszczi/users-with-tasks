@@ -1,13 +1,12 @@
 package com.koszczi.userswithtasks.domain.users;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * This class implements the {@link UserPersistenceService} ineterface. It uses JPA-managed RDBMS as persistent storage
@@ -38,4 +37,7 @@ public class UserPersistenceServiceRDBMS implements UserPersistenceService {
       return Optional.empty();
     }
   }
+
+  @Override
+  public List<User> findAllUsers() { return userRepository.findAll();  }
 }

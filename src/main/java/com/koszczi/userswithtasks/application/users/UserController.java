@@ -3,6 +3,7 @@ package com.koszczi.userswithtasks.application.users;
 import com.koszczi.userswithtasks.domain.users.User;
 import com.koszczi.userswithtasks.domain.users.UserPersistenceService;
 import com.koszczi.userswithtasks.domain.users.validation.UserValidator;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,11 @@ public class UserController {
   public static final String GENERIC_ERR_MSG = "operation failed due to some internal error";
   private final UserPersistenceService userPersistenceService;
   private final UserValidator userValidator;
+
+  @GetMapping
+  public ResponseEntity<List<User>> findAllUsers() {
+    return ResponseEntity.ok(userPersistenceService.findAllUsers());
+  }
 
   @GetMapping("/{id}")
   public ResponseEntity<User> getUser(@PathVariable long id) {

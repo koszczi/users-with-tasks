@@ -1,5 +1,6 @@
 package com.koszczi.userswithtasks.domain.users;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +23,12 @@ public interface UserPersistenceService {
    * @return {@link User} entity wrapped into {@link Optional} if found, {@code Optional.empty()} otherwise
    */
   Optional<User> findUserById(long id);
+
+  /**
+   * Finds all {@link User} entities
+   * @return list of {@link User} entities
+   */
+  List<User> findAllUsers();
 
   /**
    * Attempts to persist a given {@link User} entity into the persistent storage. If an exception occurs during

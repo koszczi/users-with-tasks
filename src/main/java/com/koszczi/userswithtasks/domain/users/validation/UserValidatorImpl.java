@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserValidatorImpl implements UserValidator {
+  private static final String DUMMY_STRING = "X";
   private final Pattern userNamePattern;
   private final Pattern firstNamePattern;
   private final Pattern lastNamePattern;
@@ -33,9 +34,9 @@ public class UserValidatorImpl implements UserValidator {
   }
 
   private boolean lengthsAreOkFor(User user) {
-    return user.getUserName().length() <= validationConfig.getUserNameMaxLength()
-      && user.getFirstName().length() <= validationConfig.getFirstNameMaxLength()
-      && user.getLastName().length() <= validationConfig.getLastNameMaxLength();
+    return (user.getUserName() != null ? user.getUserName() : DUMMY_STRING).length() <= validationConfig.getUserNameMaxLength()
+      && (user.getUserName() != null ? user.getFirstName() : DUMMY_STRING).length() <= validationConfig.getFirstNameMaxLength()
+      && (user.getUserName() != null ? user.getLastName() : DUMMY_STRING).length() <= validationConfig.getLastNameMaxLength();
   }
 
   private boolean nullabilitiesAreOkFor(User user) {

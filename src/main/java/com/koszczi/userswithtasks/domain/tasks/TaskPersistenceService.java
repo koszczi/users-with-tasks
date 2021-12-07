@@ -41,5 +41,11 @@ public interface TaskPersistenceService {
    */
   Optional<Task> persistTask(Task TaskToPersist, long userId);
 
+  /**
+   * Deletes a {@link Task} entry with a given id
+   * @param id id value
+   */
+  void deleteTask(long id);
+
 }
 

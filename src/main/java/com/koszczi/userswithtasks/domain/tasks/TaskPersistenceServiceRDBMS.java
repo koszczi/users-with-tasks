@@ -41,4 +41,7 @@ public class TaskPersistenceServiceRDBMS implements TaskPersistenceService {
 
   @Override
   public List<Task> findAllTasksForUser(long userId) { return taskRepository.findAllByUserId(userId);  }
+
+  @Override
+  public void deleteTask(long id) { taskRepository.deleteById(id);  }
 }

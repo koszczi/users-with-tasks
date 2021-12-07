@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
-@RequestMapping("user/{userId}/task")
+@RequestMapping("/user/{userId}/task")
 @AllArgsConstructor
 public class TaskController {
 
@@ -41,6 +42,7 @@ public class TaskController {
     if (!userPersistenceService.findUserById(userId).isPresent())
       return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body(USER_NOT_FOUND_ERR_MSG);
     return taskPersistenceService.findTaskById(id)
+        .filter(t -> t.getUserId() == userId)
         .map(t -> ResponseEntity.ok(t))
         .orElse(ResponseEntity.notFound().build());
   }
@@ -59,7 +61,7 @@ public class TaskController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping
+  @PostMapping("/")
   public ResponseEntity<?> postTask(@PathVariable long userId, @RequestBody Task task,
       UriComponentsBuilder uriBuilder) {
     if (!userPersistenceService.findUserById(userId).isPresent())
@@ -77,6 +79,17 @@ public class TaskController {
   private boolean invalid(Task task) {
     return !taskValidator.isValid(task);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?>  deleteTask(@PathVariable long userId, @PathVariable long id) {
+    if (!userPersistenceService.findUserById(userId).isPresent())
+      return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body(USER_NOT_FOUND_ERR_MSG);
+    return taskPersistenceService.findTaskById(id)
+        .filter(t -> t.getUserId() == userId)
+        .map(t -> { taskPersistenceService.deleteTask(id); return  ResponseEntity.noContent().build(); })
+        .orElse(ResponseEntity.notFound().build());
+  }
+
 
   private ResponseEntity<?> unProcessableEntityResponse() {
     return ResponseEntity

@@ -21,7 +21,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "TASK")
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor

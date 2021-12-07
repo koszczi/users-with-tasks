@@ -61,7 +61,7 @@ public class TaskController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<?> postTask(@PathVariable long userId, @RequestBody Task task,
       UriComponentsBuilder uriBuilder) {
     if (!userPersistenceService.findUserById(userId).isPresent())

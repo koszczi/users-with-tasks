@@ -3,14 +3,13 @@ package com.koszczi.userswithtasks.domain.tasks;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -21,12 +20,16 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "TASK")
-@EqualsAndHashCode
+@Table(name = "TASK",
+    indexes = {@Index(name = "USERID", columnList = "USER_ID"),
+        @Index(name = "STATUS", columnList = "STATUS")})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @NoArgsConstructor
 @Getter
 public class Task {
+
+  public enum Status { PENDING, DONE; }
 
   @Id
   @Column(name = "ID")
@@ -35,6 +38,7 @@ public class Task {
 
   @Column(name = "NAME")
   @JsonProperty("name")
+  @EqualsAndHashCode.Include
   private String name;
 
   @Column(name = "DESCRIPTION")
@@ -50,7 +54,11 @@ public class Task {
 
   @Column(name = "USER_ID")
   @Setter(AccessLevel.PACKAGE)
+  @EqualsAndHashCode.Include
   private long userId;
+
+  @Column(name = "STATUS")
+  private Status status = Status.PENDING;
 
   public static TaskBuilder builder() {
     return new TaskBuilder();
@@ -59,6 +67,12 @@ public class Task {
   public Task merge(Task other) {
     this.name = other.name;
     this.description = other.description;
+    this.status = other.status;
+    return this;
+  }
+
+  public Task completed() {
+    this.status = Status.DONE;
     return this;
   }
 
@@ -102,5 +116,6 @@ public class Task {
     this.description = builder.description;
     this.dateTime = builder.dateTime;
     this.userId = builder.userId;
+    this.status = Status.PENDING;
   }
 }

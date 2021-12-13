@@ -6,4 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TaskRepository extends CrudRepository<Task, Long> {
 
   List<Task> findAllByUserId(long userId);
+
+  List<Task> findAllByStatus(Task.Status status);
 }

@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+/**
+ * Schedule background job to take care of Tasks with PENDING status for too long
+ */
 @Service
 @AllArgsConstructor
 public class ScheduledJob {

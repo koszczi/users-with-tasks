@@ -1,10 +1,15 @@
 package com.koszczi.userswithtasks.domain.users.validation;
 
+import com.koszczi.userswithtasks.domain.tasks.validation.TaskValidator;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class to collect user validation related configuration properties in order to serve it
+ * to a {@link UserValidator}
+ */
 @Configuration
 @ConfigurationProperties(prefix = "user.validation")
 @Getter

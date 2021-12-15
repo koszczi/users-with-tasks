@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,6 +19,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+
+/**
+ * Entity class representing a Task
+ */
 
 @Entity
 @Table(name = "TASK",
@@ -60,16 +65,22 @@ public class Task {
   @Column(name = "STATUS")
   private Status status = Status.PENDING;
 
-  public static TaskBuilder builder() {
-    return new TaskBuilder();
-  }
-
+  /**
+   * Merges the current Task with another one
+   * @param other the other Task
+   * @return the current Task
+   */
   public Task merge(Task other) {
     this.name = other.name;
     this.description = other.description;
     this.status = other.status;
     return this;
   }
+
+  public static TaskBuilder builder() {
+    return new TaskBuilder();
+  }
+
 
   public Task completed() {
     this.status = Status.DONE;

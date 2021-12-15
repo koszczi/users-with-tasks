@@ -1,6 +1,7 @@
 package com.koszczi.userswithtasks.application.tasks;
 
 import com.koszczi.userswithtasks.domain.tasks.Task;
+import com.koszczi.userswithtasks.domain.users.User;
 import com.koszczi.userswithtasks.domain.tasks.TaskPersistenceService;
 import com.koszczi.userswithtasks.domain.tasks.validation.TaskValidator;
 import com.koszczi.userswithtasks.domain.users.UserPersistenceService;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * This service contains controller methods for querying or modifying {@link Task} objects
+ */
 @Controller
 @RequestMapping("/user/{userId}/task")
 @AllArgsConstructor
@@ -30,6 +34,12 @@ public class TaskController {
   private final UserPersistenceService userPersistenceService;
   private final TaskValidator taskValidator;
 
+  /**
+   * Provides all {@link Task} belonging to a {@link User}
+   * @param userId user identifier
+   * @return {@link ResponseEntity} of Http Response code "OK" holding the {@link Task} instances.
+   * If the {@link User} specified by userId does not exist, the response code is "BAD REQUEST"
+   */
   @GetMapping
   public ResponseEntity<?> findAllTasksForUser(@PathVariable long userId) {
     if (!userPersistenceService.findUserById(userId).isPresent())
@@ -37,6 +47,20 @@ public class TaskController {
     return ResponseEntity.ok(taskPersistenceService.findAllTasksForUser(userId));
   }
 
+  /**
+   * Provides a specific{@link Task} belonging to a {@link User}
+   * @param userId user identifier
+   * @param id identifier of the task
+   * @return /**
+   *    * Updates a specific {@link User} instance
+   *    * @param id identifier
+   *    * @param user prepared {@link User} instance
+   *    * @return {@link ResponseEntity} of Http Response code "OK" holding the found resource if found,
+   *    *  or Http Response code "NOT FOUND" otherwise
+   *    * {@link Task} instance if found.
+   * If the {@link Task} specified by id does not exist, the response code is "NOT FOUND"
+   * If the {@link User} specified by userId does not exist, the response code is "BAD REQUEST"
+   */
   @GetMapping("/{id}")
   public ResponseEntity<?> getTask(@PathVariable long userId, @PathVariable long id) {
     if (!userPersistenceService.findUserById(userId).isPresent())
@@ -47,6 +71,17 @@ public class TaskController {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Updates a specific{@link Task} belonging to a {@link User}
+   * @param userId user identifier
+   * @param id identifier of the task
+   * @param task prepared {@link Task} instance in Json format
+   * @return {@link ResponseEntity} of Http Response code "OK"
+   * holding the {@link Task} instance if found.
+   * If the {@link Task} specified by id does not exist, the response code is "NOT FOUND"
+   * If the provided {@link Task} is invalid, the response code is "UNPROCESSABLE ENTITY"
+   * If the {@link User} specified by userId does not exist, the response code is "BAD REQUEST"
+   */
   @PutMapping("/{id}")
   public ResponseEntity<?> updateTask(@PathVariable long userId, @PathVariable long id, @RequestBody Task task) {
     if (!userPersistenceService.findUserById(userId).isPresent())
@@ -61,6 +96,17 @@ public class TaskController {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Creates a new {@link Task} belonging to a {@link User}
+   * @param userId user identifier
+   * @param task prepared {@link Task} instance in Json format
+   * @param uriBuilder uri builder to create url of the new resource
+   * @return {@link ResponseEntity} of Http Response code "OK"
+   * holding the {@link Task} instance if found.
+   * If the {@link Task} specified by id does not exist, the response code is "NOT FOUND"
+   * If the provided {@link Task} is invalid, the response code is "UNPROCESSABLE ENTITY"
+   * If the {@link User} specified by userId does not exist, the response code is "BAD REQUEST"
+   */
   @PostMapping
   public ResponseEntity<?> postTask(@PathVariable long userId, @RequestBody Task task,
       UriComponentsBuilder uriBuilder) {
@@ -80,6 +126,14 @@ public class TaskController {
     return !taskValidator.isValid(task);
   }
 
+  /**
+   * Deletes a specific{@link Task} belonging to a {@link User}
+   * @param userId user identifier
+   * @param id identifier of the task
+   * @return {@link ResponseEntity} of Http Response code "NO CONTENT"
+   * If the {@link Task} specified by id does not exist, the response code is "NOT FOUND"
+   * If the {@link User} specified by userId does not exist, the response code is "BAD REQUEST"
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<?>  deleteTask(@PathVariable long userId, @PathVariable long id) {
     if (!userPersistenceService.findUserById(userId).isPresent())

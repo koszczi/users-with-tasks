@@ -6,10 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+/**
+ * Entity class representing a User
+ */
 
 @Entity
 @Table(name = "USER")
@@ -35,6 +40,18 @@ public class User {
   @Column(name = "FIRST_NAME")
   @JsonProperty("first_name")
   private String firstName;
+
+  /**
+   * Merges the current user with another one
+   * @param other the other user
+   * @return the current user
+   */
+  public User merge(User other) {
+    this.userName = other.userName;
+    this.firstName = other.firstName;
+    this.lastName = other.lastName;
+    return this;
+  }
 
   public static UserBuilder builder() {
     return new UserBuilder();
@@ -75,10 +92,4 @@ public class User {
     this.lastName = builder.lastName;
   }
 
-  public User merge(User other) {
-    this.userName = other.userName;
-    this.firstName = other.firstName;
-    this.lastName = other.lastName;
-    return this;
-  }
 }
